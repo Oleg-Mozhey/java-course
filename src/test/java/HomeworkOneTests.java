@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
 
+import static io.restassured.RestAssured.given;
+
 public class HomeworkOneTests {
     /*
     2.2 Add tests for GET, POST, PUT, and DELETE methods without AssertJ validation.
@@ -13,6 +15,10 @@ public class HomeworkOneTests {
 
     @Test
     public void OMG(){
-
+        given().log().uri().
+                when().
+                get("https://reqres.in/api/users").
+                then().
+                log().all();
     }
 }
