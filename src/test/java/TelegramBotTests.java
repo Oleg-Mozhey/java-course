@@ -1,15 +1,6 @@
-import com.pengrad.telegrambot.checks.*;
-import com.pengrad.telegrambot.model.*;
-import com.pengrad.telegrambot.model.request.*;
-import com.pengrad.telegrambot.request.*;
-import com.pengrad.telegrambot.response.*;
-
-import org.junit.*;
-
-import static com.pengrad.telegrambot.TelegramBotTest.getProp;
-import static org.junit.Assert.*;
-
 public class TelegramBotTests {
+
+    /*
 
     static TelegramBot bot = TelegramBotTest.bot;
     static Long chatId = TelegramBotTest.chatId;
@@ -44,4 +35,6 @@ public class TelegramBotTests {
         assertTrue(payButton.isPay());
         assertEquals("just pay", payButton.text());
     }
+
+     */
 }

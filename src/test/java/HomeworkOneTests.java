@@ -1,3 +1,4 @@
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -14,11 +15,11 @@ public class HomeworkOneTests {
      */
 
     @Test
-    public void OMG(){
+    public void exampleTestCase(){
         given().log().uri().
                 when().
-                get("https://reqres.in/api/users").
+                get("https://api.instantwebtools.net/v1/passenger").
                 then().
-                log().all();
+                log().all().statusCode(HttpStatus.SC_OK);
     }
 }
