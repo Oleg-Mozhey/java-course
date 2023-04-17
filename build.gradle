@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'io.freefair.lombok' version '5.1.1'
+    id'io.qameta.allure' version '2.11.2'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+def junit = '5.9.2'
+def log4j = '2.18.0'
+def assertj = '3.23.1'
+def restAssured = '5.3.0'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.24'
+    implementation "io.rest-assured:rest-assured:${restAssured}"
+    implementation "io.rest-assured:json-path:${restAssured}"
+    implementation "io.rest-assured:json-schema-validator:${restAssured}"
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+    implementation 'io.qameta.allure:allure-rest-assured:2.20.1'
+    implementation('org.slf4j:slf4j-simple:2.0.4')
+    implementation('org.aeonbits.owner:owner:1.0.12')
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+    implementation "org.apache.logging.log4j:log4j-core:${log4j}"
+    implementation "org.assertj:assertj-core:${assertj}"
+
+    //JUnit
+    implementation "org.junit.jupiter:junit-jupiter:${junit}"
+
+    //Telegram bot tests
+    implementation 'com.github.pengrad:java-telegram-bot-api:6.1.0'
+    
+}
+
+test {
+    useJUnitPlatform()
+    systemProperties(System.getProperties())
+}
