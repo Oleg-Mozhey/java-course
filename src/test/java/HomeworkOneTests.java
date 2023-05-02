@@ -1,11 +1,10 @@
+import DTOs.Passenger;
 import DTOs.PassengerRequest;
-import Models.Passenger;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
-import Utils.PassengerService;
 
 import java.io.IOException;
 
@@ -49,18 +48,25 @@ public class HomeworkOneTests {
     }
 
     @Test
-    public void informationAboutPassengerCanBeReceivedById() throws IOException {
+    public void informationAboutPassengerCanBeReceivedById() {
 
         //arrange:
-        Passenger Yura = PassengerService.createNewPassengerInDatabase(PassengerRequest.builder()
+        PassengerRequest Yura = PassengerRequest.builder()
                 .name("Yury Dud")
                 .airline(128116)
-                .trips(200).build());
+                .trips(200).build();
+        Passenger newUser = given().log().uri().
+                contentType(ContentType.JSON).
+                body(Yura).
+                when().
+                post("https://api.instantwebtools.net/v1/passenger").
+                then().
+                log().all().statusCode(HttpStatus.SC_OK).extract().response().as(Passenger.class);
 
         //act
         Response response = given().log().uri().
                 when().
-                get("https://api.instantwebtools.net/v1/passenger/" + Yura.getId()).
+                get("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
                 then().
                 log().all().
                 extract().response();
@@ -72,16 +78,52 @@ public class HomeworkOneTests {
         assertEquals(200, (Integer) jsonPath.get("trips"));
     }
 
-
     @Test
-    public void informationAboutPassengerCanBeChanged() throws IOException {
+    public void informationAboutPassengerCanBeReceivedByIdTestWithModel() {
 
         //arrange:
-        Passenger Yura = PassengerService.createNewPassengerInDatabase(PassengerRequest.builder()
+        PassengerRequest Yura = PassengerRequest.builder()
                 .name("Yury Dud")
                 .airline(128116)
-                .trips(200).build());
+                .trips(200).build();
+        Passenger newUser = given().log().uri().
+                contentType(ContentType.JSON).
+                body(Yura).
+                when().
+                post("https://api.instantwebtools.net/v1/passenger").
+                then().
+                log().all().statusCode(HttpStatus.SC_OK).extract().response().as(Passenger.class);
 
+        //act
+        Passenger response = given().log().uri().
+                when().
+                get("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
+                then().
+                log().all().
+                extract().response().as(Passenger.class);
+
+        //assert
+        assertEquals("Yury Dud", response.getName());
+        assertEquals(200, response.getTrips());
+        assertEquals(128116, response.getAirline().get(0).getId());
+    }
+
+
+    @Test
+    public void informationAboutPassengerCanBeChanged() {
+
+        //arrange:
+        PassengerRequest Yura = PassengerRequest.builder()
+                .name("Yury Dud")
+                .airline(128116)
+                .trips(200).build();
+        Passenger newUser = given().log().uri().
+                contentType(ContentType.JSON).
+                body(Yura).
+                when().
+                post("https://api.instantwebtools.net/v1/passenger").
+                then().
+                log().all().statusCode(HttpStatus.SC_OK).extract().response().as(Passenger.class);
         PassengerRequest newPassenger = PassengerRequest.builder().name("Max Kats").build();
 
         //act
@@ -89,14 +131,14 @@ public class HomeworkOneTests {
                 contentType(ContentType.JSON).
                 body(newPassenger).
                 when().
-                put("https://api.instantwebtools.net/v1/passenger/" + Yura.getId()).
+                put("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
                 then().
                 log().all().statusCode(HttpStatus.SC_OK);
 
         //assert
         Response response = given().log().uri().
                 when().
-                get("https://api.instantwebtools.net/v1/passenger/" + Yura.getId()).
+                get("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
                 then().
                 log().all().statusCode(200).
                 extract().response();
@@ -108,22 +150,29 @@ public class HomeworkOneTests {
     public void passengerCanBeDeleted() throws IOException {
 
         //arrange:
-        Passenger Yura = PassengerService.createNewPassengerInDatabase(PassengerRequest.builder()
+        PassengerRequest Yura = PassengerRequest.builder()
                 .name("Yury Dud")
                 .airline(128116)
-                .trips(200).build());
+                .trips(200).build();
+        Passenger newUser = given().log().uri().
+                contentType(ContentType.JSON).
+                body(Yura).
+                when().
+                post("https://api.instantwebtools.net/v1/passenger").
+                then().
+                log().all().statusCode(HttpStatus.SC_OK).extract().response().as(Passenger.class);
 
         //act
         given().log().uri().
                 when().
-                delete("https://api.instantwebtools.net/v1/passenger/" + Yura.getId()).
+                delete("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
                 then().
                 log().all().statusCode(HttpStatus.SC_OK);
 
         //assert
         given().log().uri().
                 when().
-                get("https://api.instantwebtools.net/v1/passenger/" + Yura.getId()).
+                get("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
                 then().
                 log().all().statusCode(HttpStatus.SC_NO_CONTENT);
     }
