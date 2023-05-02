@@ -1,5 +1,7 @@
 import DTOs.Passenger;
 import DTOs.PassengerRequest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
@@ -8,6 +10,8 @@ import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
 
+@Epic("Java API practice")
+@Feature("Homework1")
 public class HomeworkOneTests {
     /*
     2.2 Add tests for GET, POST, PUT, and DELETE methods without AssertJ validation.

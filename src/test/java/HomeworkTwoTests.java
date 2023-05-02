@@ -1,22 +1,23 @@
 import DTOs.Passenger;
 import DTOs.PassengerRequest;
-import config.ServiceConfig;
-import io.restassured.http.ContentType;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import org.aeonbits.owner.ConfigFactory;
 import org.apache.http.HttpStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import service.AuthServiceApi;
 
 import java.io.IOException;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Epic("Java API practice")
+@Feature("Homework2")
 public class HomeworkTwoTests {
     static Logger LOGGER = LogManager.getLogger();
 
@@ -85,6 +86,11 @@ public class HomeworkTwoTests {
         assertEquals("Yury Dud", response.getName());
         assertEquals(200, response.getTrips());
         assertEquals(128116, response.getAirline().get(0).getId());
+
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(response.getName()).as("name").isEqualTo("Yury Dud");
+        softly.assertThat(response.getAirline().size()).isEqualTo(1);
+        softly.assertAll();
     }
 
 
