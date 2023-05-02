@@ -1,5 +1,6 @@
 package service;
 
+import DTOs.PassengerRequest;
 import config.Config;
 import constants.ApiServiceEndpoints;
 import io.qameta.allure.Step;
@@ -42,6 +43,17 @@ public class AuthServiceApi extends RestHelper {
     public Response getAllAirlines() {
         System.out.println("Running getAllAirlines method");
         return get(ApiServiceEndpoints.AIRLINES);
+    }
+
+    @Step("GET v2/passenger/{0} - Get passenger details")
+    public Response getPassengerInfo(String id) {
+        System.out.println("Running getAllAirlines method");
+        return get(String.format(ApiServiceEndpoints.PASSENGER_BY_ID, id));
+    }
+
+    @Step("POST v2/passenger - Create passenger")
+    public Response createPassenger(PassengerRequest passenger) {
+        return post(ApiServiceEndpoints.PASSENGER, passenger);
     }
 
     public String getToken() {

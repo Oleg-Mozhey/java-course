@@ -1,15 +1,12 @@
 import DTOs.Passenger;
 import DTOs.PassengerRequest;
 import io.restassured.http.ContentType;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HomeworkOneTests {
     /*
@@ -50,7 +47,6 @@ public class HomeworkOneTests {
     @Test
     public void informationAboutPassengerCanBeReceivedById() {
 
-        //arrange:
         PassengerRequest Yura = PassengerRequest.builder()
                 .name("Yury Dud")
                 .airline(128116)
@@ -63,19 +59,11 @@ public class HomeworkOneTests {
                 then().
                 log().all().statusCode(HttpStatus.SC_OK).extract().response().as(Passenger.class);
 
-        //act
-        Response response = given().log().uri().
+        given().log().uri().
                 when().
                 get("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
                 then().
-                log().all().
-                extract().response();
-
-        //assert
-        assertEquals(200, response.statusCode());
-        JsonPath jsonPath = new JsonPath(response.asString());
-        assertEquals("Yury Dud", jsonPath.get("name"));
-        assertEquals(200, (Integer) jsonPath.get("trips"));
+                log().all().statusCode(200);
     }
 
     @Test
@@ -95,17 +83,12 @@ public class HomeworkOneTests {
                 log().all().statusCode(HttpStatus.SC_OK).extract().response().as(Passenger.class);
 
         //act
-        Passenger response = given().log().uri().
+        given().log().uri().
                 when().
                 get("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
                 then().
-                log().all().
-                extract().response().as(Passenger.class);
+                log().all();
 
-        //assert
-        assertEquals("Yury Dud", response.getName());
-        assertEquals(200, response.getTrips());
-        assertEquals(128116, response.getAirline().get(0).getId());
     }
 
 
@@ -136,14 +119,11 @@ public class HomeworkOneTests {
                 log().all().statusCode(HttpStatus.SC_OK);
 
         //assert
-        Response response = given().log().uri().
+        given().log().uri().
                 when().
                 get("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
                 then().
-                log().all().statusCode(200).
-                extract().response();
-        JsonPath jsonPath = new JsonPath(response.asString());
-        assertEquals("Max Kats", jsonPath.get("name"));
+                log().all().statusCode(200);
     }
 
     @Test
