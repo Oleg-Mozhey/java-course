@@ -76,9 +76,7 @@ public class HomeworkTwoTests {
                 log().all().statusCode(HttpStatus.SC_OK).extract().response().as(Passenger.class);
 
         //act
-        Passenger response = given().log().uri().
-                when().
-                get("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
+        Passenger response = authService.getPassengerInfo(newUser.getId()).
                 then().
                 log().all().
                 extract().response().as(Passenger.class);
@@ -104,23 +102,16 @@ public class HomeworkTwoTests {
         PassengerRequest newPassenger = PassengerRequest.builder().name("Max Kats").build();
 
         //act
-        given().log().uri().
-                contentType(ContentType.JSON).
-                body(newPassenger).
-                when().
-                put("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
+        authService.changePassengerName(newUser.getId(), newPassenger).
                 then().
                 log().all().statusCode(HttpStatus.SC_OK);
 
         //assert
-        Response response = given().log().uri().
-                when().
-                get("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
+        Passenger response = authService.getPassengerInfo(newUser.getId()).
                 then().
-                log().all().statusCode(200).
-                extract().response();
-        JsonPath jsonPath = new JsonPath(response.asString());
-        assertEquals("Max Kats", jsonPath.get("name"));
+                log().all().
+                extract().response().as(Passenger.class);
+        assertEquals("Max Kats", response.getName());
     }
 
     @Test
@@ -131,25 +122,17 @@ public class HomeworkTwoTests {
                 .name("Yury Dud")
                 .airline(128116)
                 .trips(200).build();
-        Passenger newUser = given().log().uri().
-                contentType(ContentType.JSON).
-                body(Yura).
-                when().
-                post("https://api.instantwebtools.net/v1/passenger").
+        Passenger newUser = authService.createPassenger(Yura).
                 then().
                 log().all().statusCode(HttpStatus.SC_OK).extract().response().as(Passenger.class);
 
         //act
-        given().log().uri().
-                when().
-                delete("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
+        authService.deletePassenger(newUser.getId()).
                 then().
                 log().all().statusCode(HttpStatus.SC_OK);
 
         //assert
-        given().log().uri().
-                when().
-                get("https://api.instantwebtools.net/v1/passenger/" + newUser.getId()).
+        authService.getPassengerInfo(newUser.getId()).
                 then().
                 log().all().statusCode(HttpStatus.SC_NO_CONTENT);
     }

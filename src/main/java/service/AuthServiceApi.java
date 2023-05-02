@@ -56,6 +56,16 @@ public class AuthServiceApi extends RestHelper {
         return post(ApiServiceEndpoints.PASSENGER, passenger);
     }
 
+    @Step("PUT v2/passenger/{0} - Change passenger details")
+    public Response changePassengerName(String id, PassengerRequest passenger) {
+        return put(String.format(ApiServiceEndpoints.PASSENGER_BY_ID, id), passenger);
+    }
+
+    @Step("DELETE v2/passenger/{0} - delete passenger completely!")
+    public Response deletePassenger(String id) {
+        return delete(String.format(ApiServiceEndpoints.PASSENGER_BY_ID, id));
+    }
+
     public String getToken() {
         LOGGER.error("Getting token...");
         return login().then().statusCode(HttpStatus.SC_OK).extract().path("access_token");
