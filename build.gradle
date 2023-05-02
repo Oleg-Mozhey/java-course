@@ -31,6 +31,7 @@ dependencies {
     implementation 'com.github.javafaker:javafaker:1.0.2'
     implementation "org.apache.logging.log4j:log4j-core:${log4j}"
     implementation "org.assertj:assertj-core:${assertj}"
+    implementation 'org.json:json:20180130'
 
     //JUnit
     implementation "org.junit.jupiter:junit-jupiter:${junit}"
